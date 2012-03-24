@@ -1,14 +1,110 @@
-<!DOCTYPE html>
-<html>
+@using System.Web.Optimization
+@using Ideastrike.Helpers
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]>
+<html class="no-js" lang="en">
+<![endif]-->
 <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-    <link href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/css")" rel="stylesheet" type="text/css" />
-    <link href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/themes/base/css")" rel="stylesheet" type="text/css" />
-    <script src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js")"></script>
+    <link href="@BundleTable.Bundles.ResolveBundleUrl("~/Content/top")" rel="stylesheet" type="text/css" />
+    @RenderSection("HeadContent", false)
+    <script type="text/javascript">
+        (function () {
+            if (typeof window.janrain !== 'object') window.janrain = {};
+            window.janrain.settings = {};
+
+            janrain.settings.tokenUrl = '@string.Format(@"{0}", HttpContext.Current.ToPublicUrl(new Uri("login/token", UriKind.Relative)))';
+
+            function isReady() { janrain.ready = true; };
+            if (document.addEventListener) {
+                document.addEventListener("DOMContentLoaded", isReady, false);
+            } else {
+                window.attachEvent('onload', isReady);
+            }
+
+            var e = document.createElement('script');
+            e.type = 'text/javascript';
+            e.id = 'janrainAuthWidget';
+
+            if (document.location.protocol === 'https:') {
+                e.src = 'https://rpxnow.com/js/lib/code52/engage.js';
+            } else {
+                e.src = 'http://widget-cdn.rpxnow.com/js/lib/code52/engage.js';
+            }
+
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(e, s);
+        })();
+    </script>
+    <script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/top")" type="text/javascript"></script>
 </head>
 <body>
-    @RenderBody()
+    <div class="topbar" data-dropdown="dropdown">
+        <div class="fill">
+            <div class="container">
+                <a class="brand" href="/">
+                    <h1>
+                        Ideastrike</h1>
+                </a>
+                <ul class="nav">
+                    <li><a href="/">@Ideastrike.Localization.Strings.Layout_Home</a></li>
+                    <li><a href="/idea/new">@Ideastrike.Localization.Strings.Layout_NewIdea</a></li>
+                    @*<li><a href="/inbox">Inbox</a></li>*@
+                </ul>
+                <div class="pull-right loggedin">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <ul class="nav secondary-nav">
+                            <li class="dropdown"><a href="#" class="dropdown-toggle" style="min-width: 40px;">@*<img src="@Model.GravatarUrl" />*@@Model.UserName</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/profile">Profile</a></li>
+                                    @if (Model.Claims != null && Model.Claims.Contains("admin"))
+                                    {
+                                        <li><a href="/admin/">@Ideastrike.Localization.Strings.Layout_AdminPanel</a></li>
+                                    }
+                                    <li><a href="/logout">@Ideastrike.Localization.Strings.Layout_LogOut</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    { 
+                        <ul class="nav secondary-nav">
+                            <li><a class="janrainEngage" href="#">@Ideastrike.Localization.Strings.Layout_SignIn</a></li></ul>
+                    }
+                </div>
+            </div>
+            <a id="github-banner" href="https://github.com/code52/ideastrike">
+                <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67"
+                    alt="Fork me on GitHub">
+            </a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="content">
+            @RenderBody()
+        </div>
+        <footer>
+            <p>
+                <a href="https://github.com/code52/ideastrike">Powered by Ideastrike</a></p>
+        </footer>
+    </div>
+    <!-- /container -->
+    <!-- Script at the bottom for fast page loading -->
+    <script type="text/javascript" src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/bottom")"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".close").click(function () {
+                $(".alert-message").hide();
+            });
+        });
+    </script>
+    @RenderSection("PageScript", false)
 </body>
-</html>
