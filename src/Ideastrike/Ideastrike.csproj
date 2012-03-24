@@ -140,6 +140,7 @@
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IdeaController.cs" />
+    <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\TokenController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -147,6 +148,7 @@
     <Compile Include="Helpers\Attributes\IdeastrikeAuthorize.cs" />
     <Compile Include="Helpers\FriendlyTimeHelper.cs" />
     <Compile Include="Helpers\GravatarExtensions.cs" />
+    <Compile Include="Helpers\ImageExtensions.cs" />
     <Compile Include="Helpers\MarkdownHelper.cs" />
     <Compile Include="Helpers\StatusColorHelper.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />
@@ -205,6 +207,7 @@
     <Compile Include="Models\ViewModels\FeatureViewModel.cs" />
     <Compile Include="Models\ViewModels\GitHubActivityViewModel.cs" />
     <Compile Include="Models\ViewModels\IdeaViewModel.cs" />
+    <Compile Include="Models\ViewModels\ImageViewModel.cs" />
     <Compile Include="Models\Vote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
