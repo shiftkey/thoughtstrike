@@ -20,7 +20,7 @@
             if (typeof window.janrain !== 'object') window.janrain = {};
             window.janrain.settings = {};
 
-            janrain.settings.tokenUrl = '@string.Format(@"{0}", HttpContext.Current.ToPublicUrl(new Uri("login/token", UriKind.Relative)))';
+            janrain.settings.tokenUrl = '@Url.ToAbsoluteUrl("login/token")';
 
             function isReady() { janrain.ready = true; };
             if (document.addEventListener) {
@@ -56,7 +56,6 @@
                 <ul class="nav">
                     <li><a href="/">@Ideastrike.Localization.Strings.Layout_Home</a></li>
                     <li><a href="/idea/new">@Ideastrike.Localization.Strings.Layout_NewIdea</a></li>
-                    @*<li><a href="/inbox">Inbox</a></li>*@
                 </ul>
                 <div class="pull-right loggedin">
                     @if (User.Identity.IsAuthenticated)
