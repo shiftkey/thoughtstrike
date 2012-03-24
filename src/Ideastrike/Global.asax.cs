@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity.Migrations;
 using System.Reflection;
 using System.Web;
@@ -112,33 +113,70 @@ namespace Ideastrike
 
         private static void AddBundles()
         {
-            BundleTable.Bundles.RegisterTemplateBundles();
+            AddJavascriptBundle(
+                "~/scripts/top",
+                new[]
+                    {
+                        "~/Scripts/modernizr-2.5.3.js",
+                        "~/Scripts/respond.min.js"
+                    });
 
-            Bundle topJsFiles = new Bundle("~/scripts/top", new JsMinify());
-            topJsFiles.AddFile("~/Scripts/modernizr-2.5.3.js");
-            topJsFiles.AddFile("~/Scripts/respond.min.js");
+            AddCssBundle(
+                "~/content/top",
+                new[]
+                    {
+                        "~/Content/bootstrap.min.css",
+                        "~/Content/media.css",
+                        "~/Content/style.css",
+                        "~/Content/ideastrike.css",
+                        "~/Content/jquery.fancybox.css",
+                        "~/Content/jquery.fileupload-ui.css"
+                    });
 
-            Bundle topCssFiles = new Bundle("~/content/top", new CssMinify());
-            topCssFiles.AddFile("~/Content/bootstrap.min.css");
-            topCssFiles.AddFile("~/Content/media.css");
-            topCssFiles.AddFile("~/Content/style.css");
-            topCssFiles.AddFile("~/Content/ideastrike.css");
-            topCssFiles.AddFile("~/Content/jquery.fancybox.css");
-            topCssFiles.AddFile("~/Content/jquery.fileupload-ui.css");
-            BundleTable.Bundles.Add(topCssFiles);
+            AddJavascriptBundle(
+                "~/scripts/bottom",
+                new[]
+                    {
+                        "~/Scripts/jquery-1.7.1.min.js",
+                        "~/Scripts/jquery.validate.min.js",
+                        "~/Scripts/jquery.fancybox.pack.js",
+                        "~/Scripts/jquery.contra.min.js",
+                        "~/Scripts/showdown.js",
+                        "~/Scripts/ideastrike.js",
+                        "~/Scripts/bootstrap-alerts.js",
+                        "~/Scripts/bootstrap-dropdown.js",
+                        "~/Scripts/social.js",
+                        "~/Scripts/mustache.js"
+                    });
 
-            Bundle bottomJsFiles = new Bundle("~/scripts/bottom", new JsMinify());
-            bottomJsFiles.AddFile("~/Scripts/jquery-1.7.1.min.js");
-            bottomJsFiles.AddFile("~/Scripts/jquery.validate.min.js");
-            bottomJsFiles.AddFile("~/Scripts/jquery.fancybox.pack.js");
-            bottomJsFiles.AddFile("~/Scripts/jquery.contra.min.js");
-            bottomJsFiles.AddFile("~/Scripts/showdown.js");
-            bottomJsFiles.AddFile("~/Scripts/ideastrike.js");
-            bottomJsFiles.AddFile("~/Scripts/bootstrap-alerts.js");
-            bottomJsFiles.AddFile("~/Scripts/bootstrap-dropdown.js");
-            bottomJsFiles.AddFile("~/Scripts/social.js");
-            bottomJsFiles.AddFile("~/Scripts/mustache.js");
-            BundleTable.Bundles.Add(bottomJsFiles);
+            AddJavascriptBundle(
+                "~/scripts/home",
+                new[]
+                    {
+                        "~/Scripts/modules/home.js"
+                    });
+        }
+
+        private static void AddJavascriptBundle(string path, IEnumerable<string> files)
+        {
+            Bundle bundle = new Bundle(path, new JsMinify());
+            foreach (var f in files)
+                bundle.AddFile(f);
+            AddBundle(bundle);
+        }
+
+        private static void AddCssBundle(string path, IEnumerable<string> files)
+        {
+            Bundle bundle = new Bundle(path, new CssMinify());
+            foreach (var f in files)
+                bundle.AddFile(f);
+            AddBundle(bundle);
+        }
+
+
+        private static void AddBundle(Bundle bundle)
+        {
+            BundleTable.Bundles.Add(bundle);
         }
 
         private static void MigrateDatabase()

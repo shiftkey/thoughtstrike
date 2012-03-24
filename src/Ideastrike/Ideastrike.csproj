@@ -274,6 +274,7 @@
     <Content Include="Scripts\knockout-2.0.0.debug.js" />
     <Content Include="Scripts\knockout-2.0.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\modules\home.js" />
     <Content Include="Scripts\mustache.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\showdown.js" />
@@ -295,7 +296,9 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Localization\Strings.fi.resx" />
