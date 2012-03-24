@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using Ideastrike.Helpers.Attributes;
 using Ideastrike.Models;
 using Ideastrike.Models.Repositories;
 
@@ -24,6 +25,12 @@ namespace Ideastrike.Controllers
             ViewBag.Items = _ideas.GetAll();
 
             return View();
+        }
+
+        [IdeastrikeAuthorize(Roles = "Administrators")] // this should match up with a claim on the user 
+        public ActionResult Secured()
+        {
+            return View("Index");
         }
 
         public ActionResult Top()
