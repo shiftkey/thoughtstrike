@@ -56,6 +56,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -322,7 +325,6 @@
     <Content Include="Views\JSTemplates\github.cshtml" />
     <Content Include="Views\JSTemplates\upload.cshtml" />
     <Content Include="Views\Shared\ErrorAlert.cshtml" />
-
     <Content Include="Views\Idea\New.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

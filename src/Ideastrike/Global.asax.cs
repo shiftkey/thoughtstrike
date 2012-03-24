@@ -40,13 +40,13 @@ namespace Ideastrike
                 );
 
             routes.MapRoute(
-                name: "TopItems",
+                name: "LogIn",
                 url: "login/token",
                 defaults: new { controller = "Token", action = "Login" }
             );
 
             routes.MapRoute(
-                name: "TopItems",
+                name: "LogOut",
                 url: "logout",
                 defaults: new { controller = "Token", action = "Logout" }
             );
