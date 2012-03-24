@@ -28,7 +28,7 @@ namespace Ideastrike.Controllers
             if (string.IsNullOrWhiteSpace(token))
                 return Error(Strings.LoginModule_BadResponse_NoToken);
 
-            var response = new WebClient().DownloadString(string.Format("https://rpxnow.com/api/v2/auth_info?apiKey={0}&token={1}", _apikey, Request.Form["token"]));
+            var response = new WebClient().DownloadString(string.Format("https://rpxnow.com/api/v2/auth_info?apiKey={0}&token={1}", _apikey, token));
 
             if (string.IsNullOrWhiteSpace(response))
                 return Error(Strings.LoginModule_BadResponse_NoUser);
