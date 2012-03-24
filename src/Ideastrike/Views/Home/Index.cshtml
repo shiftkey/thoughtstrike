@@ -1,7 +1,104 @@
-﻿@model dynamic
-
+﻿@using Ideastrike.Helpers
+@using Ideastrike.Models
+@model dynamic
 @{
     ViewBag.Title = "Hello Ideastrike";
 }
+@Html.Partial("ErrorAlert")
+<h1>@ViewBag.Title</h1>
+@MarkdownHelper.Markdown(ViewBag.WelcomeMessage)
+<ul class="pills">
+    <li id="popular">
+        <a href="@Url.Action("Index", "Home")">
+            @Ideastrike.Localization.Strings.Home_Popular
+        </a>
+    </li>
+    <li id="top">
+        <a href="@Url.Action("Top", "Home")">
+            @Ideastrike.Localization.Strings.Home_Top
+        </a>
+    </li>
+    <li id="new">
+        <a href="@Url.Action("New", "Home")">
+            @Ideastrike.Localization.Strings.Home_New
+        </a>
+    </li>
+</ul>
+<ul id="ideas">
+    @foreach (Idea i in ViewBag.Items)
+    {
+        <li>
+            <div class="pull-left sidebox">
+                <form>
+                    <div class="voteinfo">
+                        <h3 class="votecount @i.Id">@i.Votes.Sum(v => v.Value)</h3>
+                        @Ideastrike.Localization.Strings.Common_Votes
+                    </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <button type="button" class="btn vote" data-id="@i.Id" data-voted="@i.UserHasVoted" >
+                        @(i.UserHasVoted ? Ideastrike.Localization.Strings.Common_UnVote : Ideastrike.Localization.Strings.Common_Vote)
+                    </button>
+                }
+                </form>
+            </div>
+            <h3 class="ideaheader">
+                <a href="/idea/@i.Id">@i.Title</a> <span class="label @StatusColorHelper.ColorClass(i.Status)">@i.Status</span>
+            </h3>
+            <div class="ideadate">@FriendlyTimeHelper.Parse(i.Time)</div>
+            <div class="ideadesc" style="margin-left: 85px;">@MarkdownHelper.Markdown(i.Description)</div>
+            <div class="clearfix">
+            </div>
+        </li> 
+    }
+</ul>
+@section PageScript {
+    <script type="text/javascript">
+        $.contra(function () {
+            $(function () {
+                document.body.contentEditable = 'true';
+                document.designMode = 'on';
+                $('div').each(function () {
+                    color = '#' + (0x1000000 + Math.random() * 0xFFFFFF).toString(16).substr(1, 6);
+                    $(this).css('backgroundColor', color);
+                });
+            });
+        });
+        $(document).ready(function () {
+            $(".vote").click(function () {
+                var elem = $(this);
+                var hasVoted = elem.data("voted").toLowerCase();
 
-<h2>This is a reset</h2>
+                if (hasVoted == "false") {
+                    $.ajax({
+                        type: "POST",
+                        url: "/idea/" + elem.data("id") + "/vote",
+                        context: document.body,
+                        success: function (data) {
+                            $(".votecount." + elem.data("id")).text(data.NewVotes);
+                            console.log(data.NewVotes);
+                            elem.data("voted", "true");
+                            elem.text("unvote");
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: "/idea/" + elem.data("id") + "/unvote",
+                        context: document.body,
+                        success: function (data) {
+                            $(".votecount." + elem.data("id")).text(data.NewVotes);
+                            elem.data("voted", "false");
+                            console.log(data.NewVotes);
+                            elem.text("vote");
+                        }
+                    });
+                }
+            });
+        });
+        $(document).ready(function () {
+            var selected = '#@ViewBag.Selected';
+            $(selected).addClass('active');
+        });
+    </script>
+}

@@ -1,0 +1,11 @@
+﻿@if (!string.IsNullOrWhiteSpace(ViewBag.ErrorMessage))
+{
+    <div class="fill">
+        <div class="alert-message error">
+            <a class="close" href="#">&times;</a>
+            <p>
+                <strong>@ViewBag.ErrorMessage</strong>
+            </p>
+        </div>
+    </div>
+}

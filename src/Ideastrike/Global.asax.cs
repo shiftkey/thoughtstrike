@@ -1,4 +1,5 @@
 ﻿using System.Configuration;
+using System.Data.Entity.Migrations;
 using System.Reflection;
 using System.Web;
 using System.Web.Http;
@@ -7,6 +8,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
+using Ideastrike.Migrations;
 using Ideastrike.Models;
 using Ideastrike.Models.Repositories;
 
@@ -30,6 +32,18 @@ namespace Ideastrike
             );
 
             routes.MapRoute(
+                name: "TopItems",
+                url: "top",
+                defaults: new { controller = "Home", action = "Top" }
+            );
+
+            routes.MapRoute(
+                name: "NewItems",
+                url: "new",
+                defaults: new { controller = "Home", action = "New" }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
@@ -49,9 +63,10 @@ namespace Ideastrike
 
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
 
+            MigrateDatabase();
         }
 
-        private IContainer CreateContainer()
+        private static IContainer CreateContainer()
         {
             var builder = new ContainerBuilder();
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
@@ -116,6 +131,7 @@ namespace Ideastrike
             bottomJsFiles.AddFile("~/Scripts/jquery-1.7.1.min.js");
             bottomJsFiles.AddFile("~/Scripts/jquery.validate.min.js");
             bottomJsFiles.AddFile("~/Scripts/jquery.fancybox.pack.js");
+            bottomJsFiles.AddFile("~/Scripts/jquery.contra.min.js");
             bottomJsFiles.AddFile("~/Scripts/showdown.js");
             bottomJsFiles.AddFile("~/Scripts/ideastrike.js");
             bottomJsFiles.AddFile("~/Scripts/bootstrap-alerts.js");
@@ -123,6 +139,13 @@ namespace Ideastrike
             bottomJsFiles.AddFile("~/Scripts/social.js");
             bottomJsFiles.AddFile("~/Scripts/mustache.js");
             BundleTable.Bundles.Add(bottomJsFiles);
+        }
+
+        private static void MigrateDatabase()
+        {
+            var settings = new IdeastrikeDbConfiguration();
+            var migrator = new DbMigrator(settings);
+            migrator.Update();
         }
     }
 }
