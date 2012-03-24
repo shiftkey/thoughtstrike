@@ -9,9 +9,6 @@ using Autofac.Integration.Mvc;
 
 namespace Ideastrike
 {
-    // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
-    // visit http://go.microsoft.com/?LinkId=9394801
-
     public class MvcApplication : HttpApplication
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
@@ -47,7 +44,7 @@ namespace Ideastrike
 
             var container = CreateContainer();
 
-            DependencyResolver.SetResolver(new Autofac.Integration.Mvc.AutofacDependencyResolver(container));
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
 
         }
 

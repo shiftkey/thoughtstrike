@@ -15,6 +15,8 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,7 +46,7 @@
       <HintPath>..\packages\Autofac.Mvc3.2.6.1.841\lib\NET40\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.4.1.10331.0\lib\net40\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.5.0.0-beta2\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="MarkdownDeep">
       <HintPath>..\packages\MarkdownDeep.NET.1.4\lib\.NetFramework 3.5\MarkdownDeep.dll</HintPath>
@@ -137,13 +139,66 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\FriendlyTimeHelper.cs" />
+    <Compile Include="Helpers\GravatarExtensions.cs" />
     <Compile Include="Helpers\MarkdownHelper.cs" />
+    <Compile Include="Helpers\StatusColorHelper.cs" />
+    <Compile Include="Helpers\StringExtensions.cs" />
     <Compile Include="Helpers\UrlExtensions.cs" />
     <Compile Include="Localization\Strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201201260958254_VoteTime.cs" />
+    <Compile Include="Migrations\201201260958254_VoteTime.designer.cs">
+      <DependentUpon>201201260958254_VoteTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201201270809242_Claims.cs" />
+    <Compile Include="Migrations\201201270809242_Claims.designer.cs">
+      <DependentUpon>201201270809242_Claims.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201203240608050_AdminActivity.cs" />
+    <Compile Include="Migrations\201203240608050_AdminActivity.designer.cs">
+      <DependentUpon>201203240608050_AdminActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\IdeastrikeDbConfiguration.cs" />
+    <Compile Include="Models\Activity.cs" />
+    <Compile Include="Models\AdminActivity.cs" />
+    <Compile Include="Models\Claim.cs" />
+    <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\Feature.cs" />
+    <Compile Include="Models\GitHubActivity.cs" />
+    <Compile Include="Models\Idea.cs" />
+    <Compile Include="Models\IdeastrikeContext.cs" />
+    <Compile Include="Models\Image.cs" />
+    <Compile Include="Models\Repositories\ActivityRepository.cs" />
+    <Compile Include="Models\Repositories\FeatureRepository.cs" />
+    <Compile Include="Models\Repositories\GenericRepository.cs" />
+    <Compile Include="Models\Repositories\IActivityRepository.cs" />
+    <Compile Include="Models\Repositories\IdeaRepository.cs" />
+    <Compile Include="Models\Repositories\IFeatureRepository.cs" />
+    <Compile Include="Models\Repositories\IGenericRepository.cs" />
+    <Compile Include="Models\Repositories\IIdeaRepository.cs" />
+    <Compile Include="Models\Repositories\IImageRepository.cs" />
+    <Compile Include="Models\Repositories\ImageRepository.cs" />
+    <Compile Include="Models\Repositories\ISettingsRepository.cs" />
+    <Compile Include="Models\Repositories\IStatusRepository.cs" />
+    <Compile Include="Models\Repositories\IUserRepository.cs" />
+    <Compile Include="Models\Repositories\SettingsRepository.cs" />
+    <Compile Include="Models\Repositories\StatusRepository.cs" />
+    <Compile Include="Models\Repositories\UserRepository.cs" />
+    <Compile Include="Models\Setting.cs" />
+    <Compile Include="Models\Status.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserClaim.cs" />
+    <Compile Include="Models\ViewModels\ActivityViewModel.cs" />
+    <Compile Include="Models\ViewModels\AdminActivityViewModel.cs" />
+    <Compile Include="Models\ViewModels\CommentViewModel.cs" />
+    <Compile Include="Models\ViewModels\FeatureViewModel.cs" />
+    <Compile Include="Models\ViewModels\GitHubActivityViewModel.cs" />
+    <Compile Include="Models\ViewModels\IdeaViewModel.cs" />
+    <Compile Include="Models\Vote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -237,7 +292,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -282,4 +336,5 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>
