@@ -90,7 +90,7 @@ namespace Ideastrike
         {
             var builder = new ContainerBuilder();
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
-
+            builder.RegisterFilterProvider();
 
             if (ConfigurationManager.ConnectionStrings.Count > 0 && ConfigurationManager.ConnectionStrings["Ideastrike"] != null)
                 builder.RegisterType<IdeastrikeContext>()

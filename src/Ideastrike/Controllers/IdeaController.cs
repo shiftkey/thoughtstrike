@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using Ideastrike.Helpers.Attributes;
 using Ideastrike.Models;
 using Ideastrike.Models.Repositories;
 using Ideastrike.Models.ViewModels;
@@ -49,6 +50,7 @@ namespace Ideastrike.Controllers
         }
 
         [HttpPost]
+        [IdeastrikeAuthorize]
         public ActionResult New(Idea idea)
         {
             /*   if (string.IsNullOrEmpty(Request.Form.Title) || string.IsNullOrEmpty(Request.Form.Description))
