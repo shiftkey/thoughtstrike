@@ -312,7 +312,7 @@
   <ItemGroup>
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
- <ItemGroup>
+  <ItemGroup>
     <Content Include="Views\Idea\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -321,8 +321,8 @@
     <Content Include="Views\JSTemplates\download.cshtml" />
     <Content Include="Views\JSTemplates\github.cshtml" />
     <Content Include="Views\JSTemplates\upload.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include="Views\Shared\ErrorAlert.cshtml" />
+
     <Content Include="Views\Idea\New.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
