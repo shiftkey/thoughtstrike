@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Configuration;
+using System.Reflection;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -6,6 +7,8 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
+using Ideastrike.Models;
+using Ideastrike.Models.Repositories;
 
 namespace Ideastrike
 {
@@ -50,12 +53,46 @@ namespace Ideastrike
 
         private IContainer CreateContainer()
         {
-            var containerBuilder = new ContainerBuilder();
-            containerBuilder.RegisterControllers(Assembly.GetExecutingAssembly());
+            var builder = new ContainerBuilder();
+            builder.RegisterControllers(Assembly.GetExecutingAssembly());
 
-            // TODO: other dependencies
 
-            return containerBuilder.Build();
+            if (ConfigurationManager.ConnectionStrings.Count > 0 && ConfigurationManager.ConnectionStrings["Ideastrike"] != null)
+                builder.RegisterType<IdeastrikeContext>()
+                    .WithParameter(new NamedParameter("nameOrConnectionString", ConfigurationManager.ConnectionStrings["Ideastrike"].ConnectionString + ";MultipleActiveResultSets=true"))
+                    .AsSelf()
+                    .InstancePerLifetimeScope();
+
+            else
+                builder.RegisterType<IdeastrikeContext>()
+                .AsSelf()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<IdeaRepository>()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder.RegisterType<ActivityRepository>()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder.RegisterType<FeatureRepository>()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder.RegisterType<SettingsRepository>()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder.RegisterType<UserRepository>()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder.RegisterType<ImageRepository>()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            return builder.Build();
         }
 
         private static void AddBundles()
