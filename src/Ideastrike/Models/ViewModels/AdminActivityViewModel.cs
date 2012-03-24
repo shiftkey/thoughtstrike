@@ -6,7 +6,7 @@ namespace Ideastrike.Models.ViewModels
     {
         public AdminActivityViewModel(AdminActivity comment)
         {
-            FriendlyTime = FriendlyTimeHelper.Parse(comment.Time).ToHtmlString(); // this is encoding when it shouldn't be
+            FriendlyTime = comment.Time.ToFriendly().ToHtmlString(); // this is encoding when it shouldn't be
             Text = "";
             Author = comment.User.UserName;
             GravatarUrl = (string.IsNullOrEmpty(comment.User.AvatarUrl)) ? comment.User.Email.ToGravatarUrl(40) : comment.User.AvatarUrl;

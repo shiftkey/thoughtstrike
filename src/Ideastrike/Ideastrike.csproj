@@ -136,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IdeaController.cs" />
     <Compile Include="Controllers\TokenController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -311,8 +312,18 @@
   <ItemGroup>
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
+ <ItemGroup>
+    <Content Include="Views\Idea\Index.cshtml" />
+  </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Shared\ErrorAlert.cshtml" />
+    <Content Include="Views\JSTemplates\admin.cshtml" />
+    <Content Include="Views\JSTemplates\comment.cshtml" />
+    <Content Include="Views\JSTemplates\download.cshtml" />
+    <Content Include="Views\JSTemplates\github.cshtml" />
+    <Content Include="Views\JSTemplates\upload.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Idea\New.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

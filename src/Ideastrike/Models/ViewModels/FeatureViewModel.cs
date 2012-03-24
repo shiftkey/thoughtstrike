@@ -9,7 +9,7 @@ namespace Ideastrike.Models.ViewModels
         public FeatureViewModel(Feature feature)
         {
             Text = MarkdownHelper.Markdown(feature.Text);
-            FriendlyTime = FriendlyTimeHelper.Parse(feature.Time);
+            FriendlyTime = feature.Time.ToFriendly();
             Author = feature.User.UserName;
             GravatarUrl = (string.IsNullOrEmpty(feature.User.AvatarUrl)) ? feature.User.Email.ToGravatarUrl(40) : feature.User.AvatarUrl;
         }
