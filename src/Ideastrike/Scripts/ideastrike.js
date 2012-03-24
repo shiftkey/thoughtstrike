@@ -37,3 +37,9 @@ function editText() {
     elem.attr("disabled", "disabled");
     other.removeAttr("disabled");
 }
+
+$(document).ready(function () {
+    $(".close").click(function () {
+        $(".alert-message").hide();
+    });
+});

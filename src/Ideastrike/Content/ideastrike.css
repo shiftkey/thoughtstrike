@@ -1,4 +1,7 @@
-﻿
+﻿.content {
+    margin-top: 0px;
+}
+
 .features, .comments {
     margin-bottom: 20px;
 }
@@ -100,4 +103,8 @@
     list-style-type: none;
     margin: 0 0 15px 0;
 
+}
+
+#github-banner img {
+    position: absolute; top: 0; right: 0; border: 0;
 }

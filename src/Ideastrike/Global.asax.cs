@@ -47,7 +47,7 @@ namespace Ideastrike
 
             var container = CreateContainer();
 
-            DependencyResolver.SetResolver(new Autofac.Integration.Mvc.AutofacDependencyResolver(container));
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
 
         }
 
@@ -75,6 +75,7 @@ namespace Ideastrike
             topCssFiles.AddFile("~/Content/style.css");
             topCssFiles.AddFile("~/Content/ideastrike.css");
             topCssFiles.AddFile("~/Content/jquery.fancybox.css");
+            topCssFiles.AddFile("~/Content/jquery.fileupload-ui.css");
             BundleTable.Bundles.Add(topCssFiles);
 
             Bundle bottomJsFiles = new Bundle("~/scripts/bottom", new JsMinify());
