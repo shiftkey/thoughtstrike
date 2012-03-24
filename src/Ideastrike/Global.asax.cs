@@ -32,14 +32,21 @@ namespace Ideastrike
                 defaults: new { id = RouteParameter.Optional }
             );
 
+            routes.MapRoute(name: "NewIdea", url: "idea/new", defaults: new { controller = "Idea", action = "New" } );
             routes.MapRoute(
-                name: "TopItems",
+                    name: "Idea",
+                    url: "idea/{id}/{action}",
+                    defaults: new { controller = "Idea", action = "Index", id = UrlParameter.Optional }
+                );
+
+            routes.MapRoute(
+                name: "LogIn",
                 url: "login/token",
                 defaults: new { controller = "Token", action = "Login" }
             );
 
             routes.MapRoute(
-                name: "TopItems",
+                name: "LogOut",
                 url: "logout",
                 defaults: new { controller = "Token", action = "Logout" }
             );

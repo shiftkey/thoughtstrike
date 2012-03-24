@@ -14,7 +14,7 @@ namespace Ideastrike.Models.ViewModels
             Sha = github.Sha;
             ShaShortened = github.Sha.Substring(0, 8);
             GravatarUrl = github.GravatarUrl;
-            FriendlyTime = FriendlyTimeHelper.Parse(github.Time).ToHtmlString();
+            FriendlyTime = github.Time.ToFriendly().ToHtmlString();
             CommitUrl = github.CommitUrl;
         }
 

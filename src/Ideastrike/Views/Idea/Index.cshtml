@@ -1,0 +1,269 @@
+﻿@using Ideastrike.Helpers
+<div class="pull-right" style="margin-top:15px;">
+    <div class="sidebox">
+        <form>
+        <div class="voteinfo">
+            <h3 id="votecount">@Model.TotalVotes</h3>
+            @Ideastrike.Localization.Strings.Common_Votes
+        </div>
+        @if (Request.IsAuthenticated)
+        { 
+            <button class="btn" type="button" data-voted="@Model.UserHasVoted" id="vote">
+                @(Model.UserHasVoted ? Ideastrike.Localization.Strings.Common_UnVote : Ideastrike.Localization.Strings.Common_Vote)
+            </button>
+        }
+        </form>
+    </div>
+    <div class="sidebox" style="margin-left:10px;">
+        <div>
+            <!-- TODO: get URL for this page rather than description -->
+            <a href="https://twitter.com/share" 
+               class="twitter-share-button" 
+               data-text="Idea: @Model.Title" 
+               data-hashtags="ideastrike">Idea_Tweet</a>
+        </div>
+        <div id="fb-root"></div>
+        <div class="fb-like" data-send="false" data-layout="button_count" data-width="450" data-show-faces="true"></div>
+    </div>
+</div>
+<h1 style="margin-bottom:0px;">@Model.Title <span class="label @StatusColorHelper.ColorClass(Model.Status)">@Model.Status</span></h1>
+<div class="ideadesc">
+    @Model.Description
+</div>
+
+<div class="ideadesc gravatarsmall"><img src="@Model.GravatarUrl" /> <a href="">@Model.Author.UserName</a> <span class="ideadate">@Model.Time</span>
+@if (Model.Author.UserName == User.Identity.Name)
+{ 
+    <a href="/idea/@Model.Id/edit">@Ideastrike.Localization.Strings.Common_Edit</a>
+}</div>
+
+<hr />
+
+@if (Model.Images != null && Model.Images.Count > 0)
+{
+    <div>
+        <h4>@Ideastrike.Localization.Strings.Idea_Images</h4>
+        <p>
+            @foreach (var image in Model.Images)
+            {
+                <a class="fancybox" href='image/@(image.Id).jpg' rel="imagegroup"><img src="/idea/imagethumb/@image.Id/100" /></a>
+            }
+        </p>
+    </div>
+    <div style="clear: both;"></div>
+}
+
+
+@if (ViewBag.CanChangeIdeaStatus) 
+{
+    <div class="status">
+        <h3>Moderate</h3>
+        <form method="post" action="/idea/@Model.Id/admincomment">
+            <div class="input">
+                <div>
+                    <select id="Status" name="Status">
+                        @foreach (string statusChoice in ViewBag.StatusChoices)
+                        {
+                            string sel = "";
+                            if (Model.Idea.Status == statusChoice)
+                            {
+                                sel = "selected";
+                            }
+                            <option @sel>@statusChoice</option>
+                        }
+                    </select>
+                    <br /><br />
+                </div>
+                <div>
+                    <textarea id="AdminResponse" name="AdminResponse"></textarea>
+                    <br /><br />
+                </div>
+                <button class="btn primary" type="submit">Respond</button>
+            </div>
+        </form>
+    </div>
+    <hr />
+}
+
+@if (Model.Features.Count > 0)
+{ 
+    <div class="features">
+        <h3>@Ideastrike.Localization.Strings.Idea_Features</h3>
+        <ul>
+            @foreach (var a in Model.Features)
+            {
+                <li>
+                    <div class="row">
+                        <div class="span8 text">@a.Text</div>
+                    </div>
+                    <div class="row">
+                        <div class="span1 gravatar"><img src="@a.GravatarUrl" /></div>
+                        <div class="span8 author">@a.Author</div>
+                        <sub class="span8 time">@a.FriendlyTime</sub>
+                        <div class="comment">
+                            <!-- TODO: comment on a feature -->
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+}
+else
+{
+    <strong>@Ideastrike.Localization.Strings.Idea_NoFeatures</strong>
+}
+@if (Request.IsAuthenticated)
+{
+    <div class="expander" data-element="#add-feature">
+        <h5 class="hoverheader">@Ideastrike.Localization.Strings.Idea_GotSomething</h5>
+    </div>
+    <div id="add-feature" class="hide-on-start add-feature">
+        <form action="/idea/@Model.Id/feature" method="POST">
+            <label for="feature" id="label-text">@Ideastrike.Localization.Strings.Idea_HowAbout</label>
+            <div class="input">
+                <div class="options">
+                    <button type="button" disabled="disabled" id="edit-new-feature" class="btn edit"
+                        data-other="#preview-new-feature" data-editor="#new-feature" data-view="#new-feature-view">
+                        @Ideastrike.Localization.Strings.Common_Edit</button>
+                    <button type="button" id="preview-new-feature" class="btn preview" data-other="#edit-new-feature"
+                        data-editor="#new-feature" data-view="#new-feature-view">
+                        @Ideastrike.Localization.Strings.Common_Preview</button>
+                </div>
+                <textarea id="new-feature" name="feature"></textarea><br />
+                <span class="help-block">@Ideastrike.Localization.Strings.Common_Markdown</span>
+                <div id="new-feature-view"></div>
+            </div>
+            <br />
+            <label for="submit"></label>
+            <button class="btn primary" type="submit">@Ideastrike.Localization.Strings.Idea_AddFeature</button>
+        </form>
+    </div>
+}
+<hr />
+@if (Model.Activities.Count > 0)
+{ 
+    <div class="comments">
+        <h3>@Ideastrike.Localization.Strings.Idea_ActivityFeed</h3>
+        <div id="activity-feed">
+            <ol></ol>
+        </div>
+    </div>
+    <div class="comment">
+        <!-- TODO: new comment -->
+    </div>
+
+}
+else
+{
+    <strong>@Ideastrike.Localization.Strings.Idea_NoActivity</strong>
+}
+@if (Request.IsAuthenticated)
+{
+    <div class="expander" data-element="#add-comment">
+        <h5 class="hoverheader">@Ideastrike.Localization.Strings.Idea_LeaveComment</h5>
+    </div>
+    <div id="add-comment" class="hide-on-start add-comment">
+        <form action="/comment/@Model.Id/add" method="POST">
+        <label for="comment">@Ideastrike.Localization.Strings.Idea_LeaveComment</label>
+        <div class="input">
+            <div class="options">
+                <button type="button" disabled="disabled" id="edit-new-comment" class="btn edit"
+                    data-other="#preview-new-comment" data-editor="#new-comment" data-view="#new-comment-view">@Ideastrike.Localization.Strings.Common_Edit</button>
+                <button type="button" id="preview-new-comment" class="btn preview" data-other="#edit-new-comment"
+                    data-editor="#new-comment" data-view="#new-comment-view">@Ideastrike.Localization.Strings.Common_Preview</button>
+            </div>
+            <textarea id="new-comment" name="comment"></textarea><br />
+            <span class="help-block">@Ideastrike.Localization.Strings.Common_Markdown</span>
+            <div id="new-comment-view">
+            </div>
+        </div>
+        <br />
+        <label for="submit"></label>
+        <button class="btn primary" type="submit">@Ideastrike.Localization.Strings.Idea_AddComment</button>
+        </form>
+    </div>
+}
+
+@section PageScript
+{
+    @Html.Partial("/Views/JSTemplates/github.cshtml")
+    @Html.Partial("/Views/JSTemplates/admin.cshtml")
+    @Html.Partial("/Views/JSTemplates/comment.cshtml")
+    <script type="text/javascript">
+        
+        function updateVoteCount(data) {
+            $("#votecount").text(data.NewVotes);
+        }
+
+        function vote() {
+            var elem = $(this);
+            var hasVoted = elem.data("voted").toLowerCase();
+
+            if (hasVoted == "false") {
+                $.ajax({
+                    type: "POST",
+                    url: "/idea/@Model.Id/vote",
+                    context: document.body,
+                    success: function (data) {
+                        updateVoteCount(data);
+                        elem.data("voted", "true");
+                        elem.text("unvote");
+                    }
+                });
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/idea/@Model.Id/unvote",
+                    context: document.body,
+                    success: function (data) {
+                        updateVoteCount(data);
+                        elem.data("voted", "false");
+                        elem.text("vote");
+                    }
+                });
+            }
+        }
+
+        @{<text>
+        function loadFeed(elem, id) 
+        {
+            $.ajax({
+                type: "GET",
+                cache: false,   
+                url: "/idea/" + id + "/activity",
+                context: document.body,
+                success: function (data) 
+                {
+                    var count = data.Items.length;
+                    var converter = new Showdown.converter();
+                    
+                    for (var i = 0; i < count; i++) 
+                    {
+                        var node = data.Items[i];
+                        var template = document.getElementById('comment_template').innerHTML;
+                        if (node.template == "github")
+                            template = document.getElementById('github_template').innerHTML;
+                        else if (node.template == "admin")
+                            template = document.getElementById('admin_template').innerHTML;
+                           
+                        node.item.Text = converter.makeHtml(node.item.Text);
+                        
+                        var output = Mustache.to_html(template, node.item);
+                        $(elem).append(output);
+                    }
+                }
+            });
+        }</text>}
+
+        $(document).ready(function () {
+            $("#vote").click(vote);
+            $(".preview").click(previewText);
+            $(".edit").click(editText);
+            $(".hide-on-start").hide();
+            $(".expander").click(toggleExpander).css("cursor", "pointer");
+            loadFeed($("#activity-feed ol"), @Model.Id);
+            $('.fancybox').fancybox();
+        });
+    </script>
+}

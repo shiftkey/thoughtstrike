@@ -6,7 +6,7 @@ namespace Ideastrike.Models.ViewModels
     {
         public CommentViewModel(Comment comment)
         {
-            FriendlyTime = FriendlyTimeHelper.Parse(comment.Time).ToHtmlString(); // this is encoding when it shouldn't be
+            FriendlyTime = comment.Time.ToFriendly().ToHtmlString(); // this is encoding when it shouldn't be
             Text = comment.Text;
 
             Author = comment.User.UserName;

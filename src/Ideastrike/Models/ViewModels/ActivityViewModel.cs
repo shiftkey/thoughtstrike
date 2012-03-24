@@ -8,7 +8,7 @@ namespace Ideastrike.Models.ViewModels
     {
         public ActivityViewModel(Activity activity)
         {
-            FriendlyTime = FriendlyTimeHelper.Parse(activity.Time);
+            FriendlyTime = activity.Time.ToFriendly();
 
             var comment = activity as Comment;
             if (comment != null)

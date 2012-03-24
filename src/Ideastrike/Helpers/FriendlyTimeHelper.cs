@@ -11,7 +11,7 @@ namespace Ideastrike.Helpers
         const int DAY = 24 * HOUR;
         const int MONTH = 30 * DAY;
 
-        public static IHtmlString Parse(DateTime dt)
+        public static IHtmlString ToFriendly(this DateTime dt)
         {
             var ts = new TimeSpan(DateTime.UtcNow.Ticks - dt.Ticks);
             double delta = Math.Abs(ts.TotalSeconds);

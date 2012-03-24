@@ -1,21 +1,25 @@
 ﻿using System;
-using System.Json;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using System.Web.Security;
 using Ideastrike.Localization;
 using Ideastrike.Models;
 using Ideastrike.Models.Repositories;
+using Newtonsoft.Json;
 
 namespace Ideastrike.Controllers
 {
     public class TokenController : Controller
     {
         private readonly IUserRepository _userRepository;
+        private readonly string _apikey;
 
         public TokenController(IUserRepository userRepository)
         {
             _userRepository = userRepository;
+            _apikey = ConfigurationManager.AppSettings["JanrainKey"];
         }
 
         [HttpPost]
@@ -24,12 +28,12 @@ namespace Ideastrike.Controllers
             if (string.IsNullOrWhiteSpace(token))
                 return Error(Strings.LoginModule_BadResponse_NoToken);
 
-            var response = new WebClient().DownloadString(string.Format("https://rpxnow.com/api/v2/auth_info?apiKey={0}&token={1}", Apikey, Request.Form.token));
+            var response = new WebClient().DownloadString(string.Format("https://rpxnow.com/api/v2/auth_info?apiKey={0}&token={1}", _apikey, token));
 
             if (string.IsNullOrWhiteSpace(response))
                 return Error(Strings.LoginModule_BadResponse_NoUser);
 
-            var j = JsonValue.Parse(response).AsDynamic();
+            var j = JsonConvert.DeserializeObject<dynamic>(response);
 
             if (j.stat.ToString() != "ok")
                 return Error(Strings.LoginModule_BadResponse);
@@ -41,7 +45,8 @@ namespace Ideastrike.Controllers
             {
                 // we have an existing user, just log them in
                 // TODO: add user to forms authentication
-                return View(); // TODO: redirect to site root
+                FormsAuthentication.SetAuthCookie(user.UserName, false);
+                return Redirect("/");
             }
 
             var username = j.profile.preferredUsername.ToString();
@@ -68,7 +73,7 @@ namespace Ideastrike.Controllers
             _userRepository.Add(u);
             // TODO: add user to forms authentication
             // TODO: navigate them to /profile/edit
-
+            FormsAuthentication.SetAuthCookie(u.UserName, false);
             return View();
         }
 
