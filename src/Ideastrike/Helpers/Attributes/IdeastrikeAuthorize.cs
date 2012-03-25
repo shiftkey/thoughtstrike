@@ -15,9 +15,7 @@ namespace Ideastrike.Helpers.Attributes
             if (!httpContext.User.Identity.IsAuthenticated)
                 return false;
 
-            var userName = httpContext.User.Identity.Name;
-
-            var user = UserRepository.GetAll().FirstOrDefault(u => u.UserName == userName);
+            var user = UserRepository.GetUserFromUserIdentity(httpContext.Request.GetIdentity());
             if (user == null)
                 return false;
 

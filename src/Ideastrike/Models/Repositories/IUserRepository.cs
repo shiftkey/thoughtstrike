@@ -8,9 +8,7 @@ namespace Ideastrike.Models.Repositories
     public interface IUserRepository
     {
         //IUserIdentity GetUserFromIdentifier(Guid identifier);
-
         User GetUserFromUserIdentity(string identity);
-
         IQueryable<User> GetAll();
         IQueryable<User> FindBy(Expression<Func<User, bool>> predicate);
         User Get(Guid id);

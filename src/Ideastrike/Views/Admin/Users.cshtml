@@ -1,0 +1,14 @@
+﻿
+<ul class="pills">
+    <li><a href="/admin/">@Ideastrike.Localization.Strings.Admin_Home</a></li>
+    <li><a href="/admin/settings">@Ideastrike.Localization.Strings.Admin_Settings</a></li>
+    <li class="active"><a href="/admin/users">@Ideastrike.Localization.Strings.Admin_Users</a></li>
+    <li><a href="/admin/moderation">@Ideastrike.Localization.Strings.Admin_Moderation</a></li>
+</ul>
+
+<ul>
+@foreach (var u in Model)
+{ 
+    <li><a href="/admin/user/@u.Id">@u.UserName</a></li>
+}
+</ul>

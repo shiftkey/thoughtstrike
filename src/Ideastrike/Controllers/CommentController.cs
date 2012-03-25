@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using Ideastrike.Helpers;
 using Ideastrike.Helpers.Attributes;
@@ -36,5 +37,31 @@ namespace Ideastrike.Controllers
             _activities.Add(id, comment);
             return Redirect(string.Format("/idea/{0}#{1}", id, comment.Id));
         }
+
+        [HttpPost]
+        [IdeastrikeAuthorize(Roles = "admin")]
+        public ActionResult Admincomment(int id)
+        {
+
+            var idea = _ideas.Get(id);
+
+
+            var user = _users.GetUserFromUserIdentity(Request.GetIdentity());
+
+            _activities.Add(id, new AdminActivity
+                                   {
+                                       OldStatus = idea.Status,
+                                       NewStatus = Request.Form["Status"],
+                                       User = user,
+                                       Time = DateTime.UtcNow
+                                   });
+            _activities.Save();
+
+            idea.Status = Request.Form["Status"];
+            _ideas.Save();
+
+            return Redirect("/idea/" + idea.Id);
+        }
+
     }
 }
