@@ -79,7 +79,7 @@ namespace Ideastrike.Controllers
 
             //OM NOM NOM. ALL OF THE COOKIES
             Response.Cookies.Add(cookie);
-            return View();
+            return Redirect("/");
         }
 
         private ActionResult Error(string message)
