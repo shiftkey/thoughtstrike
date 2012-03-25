@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.Security;
 using Ideastrike.Helpers;
 using Ideastrike.Helpers.Attributes;
+using Ideastrike.Localization;
 using Ideastrike.Models;
 using Ideastrike.Models.Repositories;
 using Ideastrike.Models.ViewModels;
@@ -79,6 +79,33 @@ namespace Ideastrike.Controllers
             _ideas.Add(idea);
 
             return RedirectToAction("Index", new { id = idea.Id });
+        }
+
+        [IdeastrikeAuthorize]
+        public ActionResult Edit(int id)
+        {
+            var idea = _ideas.Get(id);
+            ViewBag.Title = string.Format(Strings.IdeaSecuredModule_EditIdea, idea.Title, _settings.SiteTitle);
+            ViewBag.StatusChoices = _settings.IdeaStatusChoices.Split(',');
+
+            //TODO: Validation
+            return View(idea);
+        }
+
+        [HttpPost]
+        [IdeastrikeAuthorize]
+        public ActionResult Edit(Idea idea)
+        {
+            //TODO: Validation
+            //TODO: Security
+            //TODO: Images
+
+            var old = _ideas.Get(idea.Id);
+            old.Title = idea.Title;
+            old.Description = idea.Description;
+            old.Status = idea.Status;
+            _ideas.Save();
+            return RedirectToAction("Index", idea.Id);
         }
 
         [HttpGet]

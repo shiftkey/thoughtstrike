@@ -1,0 +1,120 @@
+﻿<div class="row">
+    <div class="span10">
+        <div class="fill">
+            @{
+                //var displayError = ViewBag.Errors ? "block" : "none";
+            }
+
+            <div class="alert-message error" style="display: @*@displayError*@">
+                <a class="close" href="#">&times;</a>
+                <p>
+                    @Ideastrike.Localization.Strings.Idea_Edit_Error
+                </p>
+            </div>
+        </div>
+        <h2>@Ideastrike.Localization.Strings.Idea_Edit</h2>
+        <form action="/idea/@Model.Id/edit" method="POST">
+        <div class="clearfix">
+            <label for="title">@Ideastrike.Localization.Strings.Idea_Title</label>
+            <div class="input">
+                <input id="title" name="title" type="text" value="@Model.Title" />
+            </div>
+        </div>
+        <div class="clearfix">
+            <label for="Status">@Ideastrike.Localization.Strings.Idea_Status</label>
+            <div class="input">
+                <select id="Status" name="Status">
+                @foreach (string statusChoice in ViewBag.StatusChoices)
+                {
+                    string sel = "";
+                    if (Model.Status == statusChoice)
+                    {
+                        sel = "selected";
+                    }
+                    <option @sel>@statusChoice</option>
+                }
+                </select>
+            </div>
+        </div>
+        <div class="clearfix">
+            <label for="Description">@Ideastrike.Localization.Strings.Idea_Description</label>
+            <div class="input">
+                <div class="options">
+                    <button type="button"
+                            disabled="disabled" 
+                            id="edit-new-idea" 
+                            class="btn edit" 
+                            data-other="#preview-new-idea"
+                            data-editor="#new-idea" 
+                            data-view="#new-idea-view">
+                        Edit</button>
+                    <button type="button" 
+                            id="preview-new-idea" 
+                            class="btn preview" 
+                            data-other="#edit-new-idea"
+                            data-editor="#new-idea" 
+                            data-view="#new-idea-view">
+                        Preview</button>
+                </div>
+                <textarea id="new-idea" name="Description" rows="10">@Model.Description</textarea>
+                <div id="new-idea-view"></div>
+            </div>
+        </div>
+        <label for="Images">@Ideastrike.Localization.Strings.Idea_Images</label>
+        <div class="input">
+            <div class="container">
+                <div id="fileupload" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="span11 fileupload-buttonbar">
+                            <div class="progressbar fileupload-progressbar fade">
+                                <div style="width: 0%;"></div>
+                            </div>
+                            <span class="btn success fileinput-button"><span>@Ideastrike.Localization.Strings.Idea_Edit_AddImages</span>
+                                <input type="file" name="files[]" multiple="multiple" />
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="row span1" style="position: relative; z-index: 1100;">
+                        <div class="span11">
+                            <table class="zebra-striped">
+                                <tbody class="files"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="gallery-loader"></div>
+        <div id="gallery-modal" class="modal hide fade">
+            <div class="modal-header">
+                <a href="#" class="close">&times;</a>
+                <h3 class="title"></h3>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <a class="btn primary next">@Ideastrike.Localization.Strings.Idea_Next</a> <a class="btn info prev">@Ideastrike.Localization.Strings.Idea_Previous</a> <a class="btn success download" target="_blank">@Ideastrike.Localization.Strings.Idea_Download</a>
+            </div>
+        </div>
+        <div class="actions">
+            <button type="submit" class="btn primary" id="submitButton">@Ideastrike.Localization.Strings.Idea_Submit</button>
+        </div>
+        </form>
+    </div>
+    
+    <div class="span4">
+        <h3>Popular Ideas</h3>
+        <ul>
+            @*@foreach (var i in Model.PopularIdeas)
+            {
+                <li><a href="/idea/@i.Id">@i.Title</a><br />
+                    @i.Time
+                </li> 
+            }*@
+        </ul>
+    </div>
+</div>
+
+@section PageScript {
+
+}

@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Ideastrike.Models.Repositories;
 
-namespace Ideastrike.Models
+namespace Ideastrike.Models.Repositories
 {
     public class UserRepository : GenericRepository<IdeastrikeContext, User>, IUserRepository
     {
