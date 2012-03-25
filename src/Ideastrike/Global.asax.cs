@@ -82,10 +82,13 @@ namespace Ideastrike
 
             var container = CreateContainer();
 
+            UserRepository = container.Resolve<IUserRepository>();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
 
             MigrateDatabase();
         }
+
+        public static IUserRepository UserRepository { get; set; }
 
         private static IContainer CreateContainer()
         {
