@@ -65,14 +65,14 @@
 {
     <div class="status">
         <h3>Moderate</h3>
-        <form method="post" action="/idea/@Model.Id/admincomment">
+        <form method="post" action="/comment/@Model.Id/admincomment">
             <div class="input">
                 <div>
                     <select id="Status" name="Status">
                         @foreach (string statusChoice in ViewBag.StatusChoices)
                         {
                             string sel = "";
-                            if (Model.Idea.Status == statusChoice)
+                            if (Model.Status == statusChoice)
                             {
                                 sel = "selected";
                             }
