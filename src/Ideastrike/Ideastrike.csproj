@@ -146,6 +146,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Attributes\IdeastrikeAuthorize.cs" />
+    <Compile Include="Helpers\AuthExtensions.cs" />
     <Compile Include="Helpers\FriendlyTimeHelper.cs" />
     <Compile Include="Helpers\GravatarExtensions.cs" />
     <Compile Include="Helpers\ImageExtensions.cs" />

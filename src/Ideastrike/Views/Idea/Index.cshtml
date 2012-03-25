@@ -8,8 +8,15 @@
         </div>
         @if (Request.IsAuthenticated)
         { 
-            <button class="btn" type="button" data-voted="@Model.UserHasVoted" id="vote">
-                @(Model.UserHasVoted ? Ideastrike.Localization.Strings.Common_UnVote : Ideastrike.Localization.Strings.Common_Vote)
+            <button class="btn" type="button" data-voted="@ViewBag.UserHasVoted.ToString()" id="vote">
+                 @if ((bool)ViewBag.UserHasVoted)
+                        { 
+                            @Ideastrike.Localization.Strings.Common_UnVote
+                        }
+                        else
+                        { 
+                            @Ideastrike.Localization.Strings.Common_Vote
+                        }
             </button>
         }
         </form>
@@ -54,7 +61,7 @@
 }
 
 
-@if (ViewBag.CanChangeIdeaStatus) 
+@if (ViewBag.CanChangeIdeaStatus)
 {
     <div class="status">
         <h3>Moderate</h3>

@@ -35,7 +35,7 @@ namespace Ideastrike.Controllers
         public FileResult Thumb(int id, int width)
         {
 
-            var image = (Image)_images.Get(id);
+            var image = _images.Get(id);
             using (var memoryStream = new MemoryStream(image.ImageBits))
             {
                 var drawingImage = System.Drawing.Image.FromStream(memoryStream);

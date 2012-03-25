@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity.Migrations;
 using System.Reflection;
@@ -7,6 +8,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Security;
 using Autofac;
 using Autofac.Integration.Mvc;
 using Ideastrike.Migrations;

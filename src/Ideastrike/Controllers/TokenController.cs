@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Ideastrike.Localization;
@@ -44,8 +45,8 @@ namespace Ideastrike.Controllers
             if (user != null)
             {
                 // we have an existing user, just log them in
-                // TODO: add user to forms authentication
-                FormsAuthentication.SetAuthCookie(user.UserName, false);
+                var auth = new HttpCookie(FormsAuthentication.FormsCookieName, GenerateTicket(user));
+                Response.Cookies.Add(auth);
                 return Redirect("/");
             }
 
@@ -73,7 +74,11 @@ namespace Ideastrike.Controllers
             _userRepository.Add(u);
             // TODO: add user to forms authentication
             // TODO: navigate them to /profile/edit
-            FormsAuthentication.SetAuthCookie(u.UserName, false);
+      
+            var cookie = new HttpCookie(FormsAuthentication.FormsCookieName,  GenerateTicket(u));
+
+            //OM NOM NOM. ALL OF THE COOKIES
+            Response.Cookies.Add(cookie);
             return View();
         }
 
@@ -89,8 +94,21 @@ namespace Ideastrike.Controllers
         public ActionResult Logout()
         {
             // TODO: clear forms auth
-
+            FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
+        }
+
+        private string GenerateTicket(User user)
+        {
+            var newticket = new FormsAuthenticationTicket(
+                1,
+                user.UserName,
+                DateTime.UtcNow,
+                DateTime.UtcNow.AddMonths(1),
+                true,
+                user.Identity);
+
+            return FormsAuthentication.Encrypt(newticket);
         }
     }
 }
