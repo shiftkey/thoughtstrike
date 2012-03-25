@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using Ideastrike.Helpers;
 using Ideastrike.Helpers.Attributes;
 using Ideastrike.Models;
 using Ideastrike.Models.Repositories;
@@ -39,6 +40,27 @@ namespace Ideastrike.Controllers
             return View(_users.GetAll());
         }
 
+        public ActionResult User(Guid id)
+        {
+            var user = _users.Get(id);
+            if (user == null)
+            {
+                //user can't be found, throw 404
+                return null;
+            }
+
+            //give them a bigger gravatar picture...
+            user.AvatarUrl = user.Email.ToGravatarUrl(180);
+            
+            return View(user);
+        }
+
+        [HttpPost]
+        public ActionResult User(User user)
+        {
+            return RedirectToAction("User", new { id = user.Id });
+        }
+
         public ActionResult Moderation()
         {
             return View();
@@ -52,7 +74,12 @@ namespace Ideastrike.Controllers
         [HttpPost]
         public ActionResult Settings(SettingsViewModel settings)
         {
-
+            _settings.WelcomeMessage = settings.WelcomeMessage;
+            _settings.SiteTitle = settings.SiteTitle;
+            _settings.Name = settings.Name;
+            _settings.HomePage = settings.HomePage;
+            _settings.GAnalyticsKey = settings.GAnalyticsKey;
+            _settings.MaxThumbnailWidth = settings.MaxThumbnailWidth;
             return Settings();
         }
 

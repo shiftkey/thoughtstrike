@@ -4,12 +4,12 @@ namespace Ideastrike.Models.ViewModels
 {
     public class SettingsViewModel
     {
-        public string SiteTitle;
-        public string Name;
-        public string WelcomeMessage;
-        public string HomePage;
-        public string GAnalyticsKey;
-        public int MaxThumbnailWidth;
+        public string SiteTitle { get; set; }
+        public string Name { get; set; }
+        public string WelcomeMessage { get; set; }
+        public string HomePage { get; set; }
+        public string GAnalyticsKey { get; set; }
+        public int MaxThumbnailWidth { get; set; }
 
         public SettingsViewModel()
         {
