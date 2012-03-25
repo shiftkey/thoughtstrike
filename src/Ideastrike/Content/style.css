@@ -125,3 +125,7 @@ border: 0;
 #fileupload .span11 {
     margin-left:5px;
 }
+.lactivity { margin-left:50px;}
+textarea#AdminResponse {
+    height: 140px;
+}
