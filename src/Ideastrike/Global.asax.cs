@@ -34,12 +34,9 @@ namespace Ideastrike
                 defaults: new { id = RouteParameter.Optional }
             );
 
+            
             routes.MapRoute(name: "NewIdea", url: "idea/new", defaults: new { controller = "Idea", action = "New" } );
-            routes.MapRoute(
-                    name: "Idea",
-                    url: "idea/{id}/{action}",
-                    defaults: new { controller = "Idea", action = "Index", id = UrlParameter.Optional }
-                );
+            routes.MapRoute(name: "Idea", url: "idea/{id}/{action}", defaults: new { controller = "Idea", action = "Index", id = UrlParameter.Optional });
 
             routes.MapRoute(
                 name: "LogIn",
@@ -64,6 +61,8 @@ namespace Ideastrike
                 url: "new",
                 defaults: new { controller = "Home", action = "New" }
             );
+
+            routes.MapRoute(name: "AltDefault", url: "{controller}/{id}/{action}", defaults: new { controller = "Idea", action = "New" });
 
             routes.MapRoute(
                 name: "Default",
