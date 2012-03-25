@@ -16,10 +16,10 @@ namespace Ideastrike.Controllers
     public class AdminController : Controller
     {
         private readonly IdeastrikeContext _dbContext;
-        private ISettingsRepository _settings;
-        private IUserRepository _users;
-        private IIdeaRepository _ideas;
-        private IActivityRepository _activities;
+        private readonly ISettingsRepository _settings;
+        private readonly IUserRepository _users;
+        private readonly IIdeaRepository _ideas;
+        private readonly IActivityRepository _activities;
 
         public AdminController(IdeastrikeContext dbContext, ISettingsRepository settings, IUserRepository users, IIdeaRepository ideas, IActivityRepository activities)
         {

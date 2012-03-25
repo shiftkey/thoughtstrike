@@ -1,10 +1,6 @@
 ﻿@using System.Web.Optimization
 @using Ideastrike.Helpers
 @using Ideastrike.Models
-@model dynamic
-@{
-    ViewBag.Title = "Hello Ideastrike";
-}
 @Html.Partial("ErrorAlert")
 <h1>@ViewBag.Title</h1>
 @MarkdownHelper.Markdown(ViewBag.WelcomeMessage)

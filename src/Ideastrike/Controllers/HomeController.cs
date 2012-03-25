@@ -52,6 +52,7 @@ namespace Ideastrike.Controllers
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             ViewBag.WelcomeMessage = _settings.WelcomeMessage;
+            ViewBag.Title = _settings.SiteTitle;
 
             base.OnActionExecuted(filterContext);
         }
