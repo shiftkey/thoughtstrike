@@ -265,10 +265,10 @@ else
 
         $(document).ready(function () {
             $("#vote").click(vote);
-            $(".preview").click(previewText);
-            $(".edit").click(editText);
+            $(".preview").click(ideastrike.previewText);
+            $(".edit").click(ideastrike.editText);
             $(".hide-on-start").hide();
-            $(".expander").click(toggleExpander).css("cursor", "pointer");
+            $(".expander").click(ideastrike.toggleExpander).css("cursor", "pointer");
             loadFeed($("#activity-feed ol"), @Model.Id);
             $('.fancybox').fancybox();
         });
