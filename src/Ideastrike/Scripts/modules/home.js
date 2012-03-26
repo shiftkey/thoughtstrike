@@ -17,7 +17,7 @@
             var elem = $(this);
             var hasVoted = elem.data("voted").toLowerCase();
 
-            if (hasVoted == "false") {
+            if (hasVoted === "false") {
                 $.ajax({
                     type: "POST",
                     url: "/idea/" + elem.data("id") + "/vote",
