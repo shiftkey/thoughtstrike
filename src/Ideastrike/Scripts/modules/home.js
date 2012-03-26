@@ -11,6 +11,8 @@
         });
     });
     $(document).ready(function () {
+        $('#' + ideastrike.viewBag.selected).addClass('active');
+
         $(".vote").click(function () {
             var elem = $(this);
             var hasVoted = elem.data("voted").toLowerCase();
