@@ -12,14 +12,11 @@ namespace Ideastrike.Models.ViewModels
 	{
 		public IdeaViewModel(Idea idea)
 		{
-            var regex = new Regex(@"((https?|ftp|file):\/\/[-a-zA-Z0-9+&@#\/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#\/%=~_|])");
-            
             Id = idea.Id;
 			Title = idea.Title;
 			Status = idea.Status;
 			Time = idea.Time.ToFriendly();
-		    var text = regex.Replace(idea.Description, @"[$1]($1)");
-            Description = MarkdownHelper.Markdown(text);
+            Description = MarkdownHelper.Markdown(idea.Description.ConvertingLinksToMarkdownUrls());
 			UserHasVoted = idea.UserHasVoted;
 			TotalVotes = idea.Votes.Count;
 			Author = idea.Author;

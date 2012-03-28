@@ -9,10 +9,7 @@ namespace Ideastrike.Models.ViewModels
     {
         public FeatureViewModel(Feature feature)
         {
-            var regex = new Regex(@"((https?|ftp|file):\/\/[-a-zA-Z0-9+&@#\/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#\/%=~_|])");
-
-            var text = regex.Replace(feature.Text, @"[$1]($1)");
-            Text = MarkdownHelper.Markdown(text);
+            Text = MarkdownHelper.Markdown(feature.Text.ConvertingLinksToMarkdownUrls());
             FriendlyTime = feature.Time.ToFriendly();
             Author = feature.User.UserName;
             GravatarUrl = (string.IsNullOrEmpty(feature.User.AvatarUrl)) ? feature.User.Email.ToGravatarUrl(40) : feature.User.AvatarUrl;
