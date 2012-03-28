@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using System.Web;
 using DanTup.Web;
 using Ideastrike.Helpers;
@@ -8,7 +9,7 @@ namespace Ideastrike.Models.ViewModels
     {
         public FeatureViewModel(Feature feature)
         {
-            Text = MarkdownHelper.Markdown(feature.Text);
+            Text = MarkdownHelper.Markdown(feature.Text.ConvertingLinksToMarkdownUrls());
             FriendlyTime = feature.Time.ToFriendly();
             Author = feature.User.UserName;
             GravatarUrl = (string.IsNullOrEmpty(feature.User.AvatarUrl)) ? feature.User.Email.ToGravatarUrl(40) : feature.User.AvatarUrl;

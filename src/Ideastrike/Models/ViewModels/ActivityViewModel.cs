@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Text.RegularExpressions;
+using System.Web;
 using DanTup.Web;
 using Ideastrike.Helpers;
 
@@ -13,7 +14,7 @@ namespace Ideastrike.Models.ViewModels
             var comment = activity as Comment;
             if (comment != null)
             {
-                Text = MarkdownHelper.Markdown(comment.Text);
+                Text = MarkdownHelper.Markdown(comment.Text.ConvertingLinksToMarkdownUrls());
                 // TODO: not hard code these
                 Author = activity.User.UserName;
                 GravatarUrl = (string.IsNullOrEmpty(activity.User.AvatarUrl)) ? activity.User.Email.ToGravatarUrl(40) : activity.User.AvatarUrl;
