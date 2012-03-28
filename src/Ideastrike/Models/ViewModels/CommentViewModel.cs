@@ -1,4 +1,5 @@
-﻿using Ideastrike.Helpers;
+﻿using System.Text.RegularExpressions;
+using Ideastrike.Helpers;
 
 namespace Ideastrike.Models.ViewModels
 {
@@ -6,8 +7,12 @@ namespace Ideastrike.Models.ViewModels
     {
         public CommentViewModel(Comment comment)
         {
+            var regex = new Regex(@"((https?|ftp|file):\/\/[-a-zA-Z0-9+&@#\/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#\/%=~_|])");
+
             FriendlyTime = comment.Time.ToFriendly().ToHtmlString(); // this is encoding when it shouldn't be
-            Text = comment.Text;
+
+            var text = regex.Replace(comment.Text, @"[$1]($1)");
+            Text = text;
 
             Author = comment.User.UserName;
             GravatarUrl = (string.IsNullOrEmpty(comment.User.AvatarUrl)) ? comment.User.Email.ToGravatarUrl(40) : comment.User.AvatarUrl;

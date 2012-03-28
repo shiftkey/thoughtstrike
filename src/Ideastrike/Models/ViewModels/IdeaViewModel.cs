@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using DanTup.Web;
 using Ideastrike.Helpers;
@@ -11,16 +12,22 @@ namespace Ideastrike.Models.ViewModels
 	{
 		public IdeaViewModel(Idea idea)
 		{
-			Id = idea.Id;
+            var regex = new Regex(@"((https?|ftp|file):\/\/[-a-zA-Z0-9+&@#\/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#\/%=~_|])");
+            
+            Id = idea.Id;
 			Title = idea.Title;
 			Status = idea.Status;
 			Time = idea.Time.ToFriendly();
-			Description = MarkdownHelper.Markdown(idea.Description);
+		    var text = regex.Replace(idea.Description, @"[$1]($1)");
+            Description = MarkdownHelper.Markdown(text);
 			UserHasVoted = idea.UserHasVoted;
 			TotalVotes = idea.Votes.Count;
 			Author = idea.Author;
 			GravatarUrl = (string.IsNullOrEmpty(Author.AvatarUrl)) ? Author.Email.ToGravatarUrl(40) : Author.AvatarUrl;
-			Features = idea.Features.Select(f => new FeatureViewModel(f)).ToList();
+
+
+            Features = idea.Features.Select(f => new FeatureViewModel(f)).ToList();
+
 			Activities = idea.Activities.Select(f => new ActivityViewModel(f)).ToList();
 
 			if (idea.Images != null)
