@@ -13,6 +13,9 @@ namespace Ideastrike.Helpers
 
         public static string ConvertingLinksToMarkdownUrls(this string s)
         {
+            if (string.IsNullOrEmpty(s))
+                return s;
+
             var regex = new Regex(@"((https?|ftp|file):\/\/[-a-zA-Z0-9+&@#\/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#\/%=~_|])");
 
             return regex.Replace(s, @"[$1]($1)");
