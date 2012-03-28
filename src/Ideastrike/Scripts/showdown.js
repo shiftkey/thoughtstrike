@@ -1293,4 +1293,4 @@ Showdown.converter = function () {
         return "~E" + charCodeToEscape + "E";
     }
 
-} // end of Showdown.converter
+}; // end of Showdown.converter

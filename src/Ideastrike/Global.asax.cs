@@ -178,6 +178,13 @@ namespace Ideastrike
                     {
                         "~/Scripts/modules/home.js"
                     });
+
+            AddJavascriptBundle(
+                "~/scripts/idea/index",
+                new[]
+                    {
+                        "~/Views/Idea/Index.js"
+                    });
         }
 
         private static void AddJavascriptBundle(string path, IEnumerable<string> files)
