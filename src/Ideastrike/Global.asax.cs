@@ -173,10 +173,10 @@ namespace Ideastrike
                     });
 
             AddJavascriptBundle(
-                "~/scripts/home",
+                "~/scripts/home/home",
                 new[]
                     {
-                        "~/Scripts/modules/home.js"
+                        "~/Views/Home/home.js"
                     });
 
             AddJavascriptBundle(

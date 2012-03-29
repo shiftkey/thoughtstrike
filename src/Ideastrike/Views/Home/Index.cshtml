@@ -33,7 +33,7 @@
                     </div>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <button type="button" class="btn vote" data-id="@i.Id" data-voted="@i.UserHasVoted" >
+                    <button type="button" class="btn vote" data-id="@i.Id" data-voted="@i.UserHasVoted.ToString()" >
                         @(i.UserHasVoted ? Ideastrike.Localization.Strings.Common_UnVote : Ideastrike.Localization.Strings.Common_Vote)
                     </button>
                 }
@@ -56,5 +56,5 @@
             ideastrike.viewBag.selected = '@ViewBag.Selected';
         } ());
     </script>
-    <script type="text/javascript" src="@BundleTable.Bundles.ResolveBundleUrl("~/scripts/home")"></script>
+    <script type="text/javascript" src="@BundleTable.Bundles.ResolveBundleUrl("~/scripts/home/home")"></script>
 }

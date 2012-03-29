@@ -1,6 +1,7 @@
 ﻿using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using Ideastrike.Helpers;
 using Ideastrike.Models;
@@ -52,6 +53,30 @@ namespace Ideastrike.Controllers
                     return File(new MemoryStream(thumbnailStream.GetBuffer()), "image/jpeg"); //massive WTF? If I just use thumnailStream, it doesn't work...
                 }
             }
+        }
+
+        [HttpPost]
+        public JsonResult UploadImage(HttpPostedFileBase file)
+        {
+            var bytes = file.InputStream.ReadToEnd();
+
+            var image = new Image
+                            {
+                                Name = file.FileName, 
+                                ImageBits = bytes
+                            };
+
+            _images.Add(image);
+            var status = new ImageViewModel(image.Id, bytes.Length, image.Name);
+            return new JsonResult
+            {
+                Data = new
+                {
+                    Status = status
+                },
+
+            };
+
         }
 
         [HttpGet]

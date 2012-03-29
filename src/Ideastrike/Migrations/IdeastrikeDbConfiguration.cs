@@ -10,7 +10,7 @@ namespace Ideastrike.Migrations
 
         public IdeastrikeDbConfiguration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(IdeastrikeContext context)

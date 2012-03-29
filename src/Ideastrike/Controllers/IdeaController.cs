@@ -15,12 +15,14 @@ namespace Ideastrike.Controllers
         private readonly IIdeaRepository _ideas;
         private readonly IUserRepository _users;
         private readonly ISettingsRepository _settings;
+        private readonly IFeatureRepository _features;
 
-        public IdeaController(IIdeaRepository ideas, IUserRepository users, ISettingsRepository settings, IImageRepository imageRepository)
+        public IdeaController(IIdeaRepository ideas, IUserRepository users, ISettingsRepository settings, IImageRepository imageRepository, IFeatureRepository features)
         {
             _ideas = ideas;
             _users = users;
             _settings = settings;
+            _features = features;
         }
 
         public ActionResult Index(int id)
@@ -122,6 +124,20 @@ namespace Ideastrike.Controllers
                                       },
                            JsonRequestBehavior = JsonRequestBehavior.AllowGet
                        };
+        }
+
+        [HttpPost]
+        public ActionResult Feature(int id, string feature)
+        {
+            var idea = _ideas.Get(id);
+            var f = new Feature
+            {
+                Time = DateTime.UtcNow,
+                Text = feature,
+                User = _users.GetUserFromUserIdentity(Request.GetIdentity())
+            };
+            _features.Add(id, f);
+            return RedirectToAction("Index", id);
         }
 
         [HttpPost]

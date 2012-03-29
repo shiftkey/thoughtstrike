@@ -1,0 +1,57 @@
+﻿<form action="/profile/edit" method="POST">
+    <fieldset>
+        <legend>Profile</legend>
+        <div class="clearfix">
+            <label for="username">@Ideastrike.Localization.Strings.Profile_UserName</label>
+            <div class="input">
+                <input class="xlarge" name="username" id="username" value="@Model.UserName" size="30" type="text" />
+                <span id="validateUsername"></span>
+            </div>
+        </div>
+        <div class="clearfix">
+            <label for="email">@Ideastrike.Localization.Strings.Profile_Email</label>
+            <div class="input">
+                <input class="xlarge" name="email" id="email" value="@Model.Email" size="30" type="text" />
+                <span class="help-block">For <a href="http://gravatar.com/">Gravatar</a></span>
+            </div>
+        </div>
+        <div class="clearfix">
+            <label for="github">@Ideastrike.Localization.Strings.Profile_Github</label>
+            <div class="input">
+                <input class="xlarge" name="github" id="github" value="@Model.Github" size="30" type="text" />
+            </div>
+        </div>
+        <div class="input">
+            <button type="submit" class="btn primary">@Ideastrike.Localization.Strings.Common_Save</button>
+        </div>
+    </fieldset>
+</form>
+
+@section PageScript {
+    <script>
+        $(document).ready(function () {
+            var validateUsername = $('#validateUsername');
+            $('#username').keyup(function () {
+                var t = this;
+                if (this.value != this.lastValue) {
+                    if (this.timer) clearTimeout(this.timer);
+                    validateUsername.removeClass('error').html(' checking availability...');
+
+                    this.timer = setTimeout(function () {
+                        $.ajax({
+                            url: '/profile/checkuser',
+                            data: 'username=' + t.value,
+                            dataType: 'json',
+                            type: 'post',
+                            success: function (j) {
+                                validateUsername.html(j.msg);
+                            }
+                        });
+                    }, 200);
+
+                    this.lastValue = this.value;
+                }
+            });
+        });
+    </script>
+}
