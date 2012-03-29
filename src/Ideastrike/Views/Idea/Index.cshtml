@@ -40,7 +40,7 @@
 </div>
 
 <div class="ideadesc gravatarsmall"><img src="@Model.GravatarUrl" /> <a href="">@Model.Author.UserName</a> <span class="ideadate">@Model.Time</span>
-@if (Model.Author.UserName == User.Identity.Name)
+@if (Model.Author.UserName == User.Identity.Name || ViewBag.CanChangeIdeaStatus)
 { 
     <a href="/idea/@Model.Id/edit">@Ideastrike.Localization.Strings.Common_Edit</a>
 }</div>
